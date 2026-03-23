@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-------------------------------- Keymap -------------------------------
+------------------------------- Global Keymap -------------------------------
 local opts = { noremap = true }
 local keymap = vim.keymap.set
 
@@ -185,4 +185,30 @@ vim.lsp.config('*', {
 ------------------------- minimal and fast autopairs -----------------------
 vim.pack.add({ "https://github.com/nvim-mini/mini.pairs" })
 require("mini.pairs").setup()
+
+---------------------------- Plugin: telescope ----------------------------
+------------------------------- fuzzy finder ------------------------------
+vim.pack.add({
+  "https://github.com/nvim-lua/plenary.nvim", -- dependency
+  "https://github.com/nvim-telescope/telescope.nvim",
+})
+require("telescope").setup()
+
+-- Use telescope-fzf-native.nvim to improve sorting performance, which needs to be built locally
+local build_fzf = function(ev)
+  local name, kind = ev.data.spec.name, ev.data.kind
+  if name == 'telescope-fzf-native.nvim' and (kind == 'install' or kind == 'update') then
+    vim.system({ 'make' }, { cwd = ev.data.path }):wait()
+  end
+end
+vim.api.nvim_create_autocmd('PackChanged', { callback = build_fzf })
+vim.pack.add({ "https://github.com/nvim-telescope/telescope-fzf-native.nvim" })
+require("telescope").load_extension("fzf")
+
+-- ripgrep is required for live_grep, which can be installed via package manager
+
+-- Keymaps for telescope
+local tele_builtin = require('telescope.builtin')
+keymap("n", "<leader>f", tele_builtin.find_files, { desc = "Telescope find files" })
+keymap("n", "<leader>g", tele_builtin.live_grep, { desc = "Telescope live grep" })
 
