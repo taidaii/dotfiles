@@ -1,0 +1,1 @@
+set cmd:prompt "╭╴ [lftp] \u@\h: \w\n╰╴ > "
