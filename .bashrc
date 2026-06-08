@@ -16,6 +16,8 @@ export PATH
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
+# Keep current query string to command line when exiting reverse search
+export FZF_CTRL_R_OPTS="--bind esc:print-query"
 
 # Prompt
 NAME_HOST_STYLE="\[\e[0;38;2;245;224;220m\]"
