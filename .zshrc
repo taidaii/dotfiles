@@ -1,5 +1,7 @@
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+# Keep current query string to command line when exiting reverse search
+export FZF_CTRL_R_OPTS="--bind esc:print-query"
 
 # PROMPT
 NAME_HOST_STYLE='%F{#ebe0dc}'
